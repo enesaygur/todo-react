@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { Todo } from "./types/todo";
+import TodoList from "./components/TodoList";
 
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -30,11 +31,7 @@ function App() {
       />
       <button onClick={addTodo}>Ekle</button>
 
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>{todo.title}</li>
-        ))}
-      </ul>
+      <TodoList todos={todos} />
     </>
   );
 }
