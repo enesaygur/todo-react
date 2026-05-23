@@ -19,11 +19,14 @@ function App() {
     setTitle("");
   };
 
+  const deleteTodo = (id: number) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
   return (
     <>
       <h1>Todo App</h1>
       <TodoInput title={title} setTitle={setTitle} addTodo={addTodo} />
-      <TodoList todos={todos} />
+      <TodoList todos={todos} onDelete={deleteTodo} />
     </>
   );
 }

@@ -4,13 +4,14 @@ import TodoItem from "./TodoItem";
 
 interface Props {
   todos: Todo[];
+  onDelete: (id: number) => void;
 }
 
-function TodoList({ todos }: Props) {
+function TodoList({ todos, onDelete }: Props) {
   return (
     <ul>
       {todos.map((todo) => (
-        <TodoItem key={todo.id} todo={todo} />
+        <TodoItem key={todo.id} todo={todo} onDelete={onDelete} />
       ))}
     </ul>
   );
