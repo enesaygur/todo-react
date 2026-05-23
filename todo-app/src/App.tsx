@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Todo } from "./types/todo";
 import TodoList from "./components/TodoList";
+import TodoInput from "./components/TodoInput";
 
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -21,16 +22,7 @@ function App() {
   return (
     <>
       <h1>Todo App</h1>
-      <input
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Todo yaz..."
-        onKeyDown={(e) => {
-          if (e.key === "Enter") addTodo();
-        }}
-      />
-      <button onClick={addTodo}>Ekle</button>
-
+      <TodoInput title={title} setTitle={setTitle} addTodo={addTodo} />
       <TodoList todos={todos} />
     </>
   );
