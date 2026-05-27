@@ -2,9 +2,17 @@ import { useEffect, useState } from "react";
 import type { Todo } from "./../types/todo";
 
 function useTodos() {
+  type Filter = "all" | "active" | "completed";
   const [todos, setTodos] = useState<Todo[]>(() => {
     const storedTodos = localStorage.getItem("todos");
     return storedTodos ? JSON.parse(storedTodos) : [];
+  });
+  const [filter, setFilter] = useState<Filter>("all");
+
+  const filteredTodos = todos.filter((todo) => {
+    if (filter === "active") return !todo.completed;
+    if (filter === "completed") return todo.completed;
+    return true;
   });
 
   const addTodo = (title: string) => {
@@ -28,12 +36,12 @@ function useTodos() {
       ),
     );
   };
-  
+
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
-  return { todos, addTodo, deleteTodo, toggleTodo };
+  return { todos: filteredTodos, addTodo, deleteTodo, toggleTodo, filter, setFilter };
 }
 
 export default useTodos;
