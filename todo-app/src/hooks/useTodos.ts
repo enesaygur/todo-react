@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Todo } from "./../types/todo";
 
 function useTodos() {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<Todo[]>(() => {
+    const storedTodos = localStorage.getItem("todos");
+    return storedTodos ? JSON.parse(storedTodos) : [];
+  });
+
   const addTodo = (title: string) => {
     if (!title.trim()) return;
 
@@ -24,6 +28,11 @@ function useTodos() {
       ),
     );
   };
+  
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
   return { todos, addTodo, deleteTodo, toggleTodo };
 }
 
