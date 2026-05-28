@@ -10,6 +10,7 @@ function TodoInput({ title, setTitle, addTodo }: Props) {
   return (
     <>
       <input
+      autoFocus
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         onKeyDown={(e) => {

@@ -29,6 +29,14 @@ function useTodos() {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
+  const editTodo = (id: number, title: string) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, title: title.trim() } : todo,
+      ),
+    );
+  };
+
   const toggleTodo = (id: number) => {
     setTodos(
       todos.map((todo) =>
@@ -41,7 +49,15 @@ function useTodos() {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
-  return { todos: filteredTodos, addTodo, deleteTodo, toggleTodo, filter, setFilter };
+  return {
+    todos: filteredTodos,
+    addTodo,
+    deleteTodo,
+    toggleTodo,
+    filter,
+    setFilter,
+    editTodo,
+  };
 }
 
 export default useTodos;
