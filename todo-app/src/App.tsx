@@ -5,8 +5,16 @@ import useTodos from "./hooks/useTodos";
 
 function App() {
   const [title, setTitle] = useState("");
-  const { todos, addTodo, deleteTodo, toggleTodo, filter, setFilter, editTodo } =
-    useTodos();
+  const {
+    todos,
+    addTodo,
+    deleteTodo,
+    toggleTodo,
+    filter,
+    setFilter,
+    editTodo,
+    clearCompleted,
+  } = useTodos();
   const handleAddTodo = () => {
     addTodo(title);
     setTitle("");
@@ -29,6 +37,9 @@ function App() {
         >
           Completed
         </button>
+      </div>
+      <div>
+        <button onClick={clearCompleted}>Clear Completed</button>
       </div>
       <h1>Todo App</h1>
       <TodoInput title={title} setTitle={setTitle} addTodo={handleAddTodo} />

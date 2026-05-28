@@ -45,6 +45,10 @@ function useTodos() {
     );
   };
 
+  const clearCompleted = () => {
+    setTodos(todos.filter((todo) => !todo.completed));
+  };
+
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
@@ -57,6 +61,7 @@ function useTodos() {
     filter,
     setFilter,
     editTodo,
+    clearCompleted,
   };
 }
 
