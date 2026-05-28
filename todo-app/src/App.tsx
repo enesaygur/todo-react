@@ -22,18 +22,27 @@ function App() {
   return (
     <>
       <div>
-        <button onClick={() => setFilter("all")} disabled={filter === "all"}>
+        <button
+          onClick={() => setFilter("all")}
+          style={{
+            fontWeight: filter === "all" ? "bold" : "normal",
+          }}
+        >
           All
         </button>
         <button
           onClick={() => setFilter("active")}
-          disabled={filter === "active"}
+          style={{
+            fontWeight: filter === "active" ? "bold" : "normal",
+          }}
         >
           Active
         </button>
         <button
           onClick={() => setFilter("completed")}
-          disabled={filter === "completed"}
+          style={{
+            fontWeight: filter === "completed" ? "bold" : "normal",
+          }}
         >
           Completed
         </button>
