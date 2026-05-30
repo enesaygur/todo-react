@@ -23,6 +23,10 @@ function TodoItem({ todo, onDelete, onToggle, onEdit }: Props) {
               onEdit(todo.id, editedTitle);
               setIsEditing(false);
             }
+            if (e.key === "Escape") {
+              setEditedTitle(todo.title);
+              setIsEditing(false);
+            }
           }}
         />
       ) : (
