@@ -19,6 +19,7 @@ function App() {
     addTodo(title);
     setTitle("");
   };
+  const remainingTodos = todos.filter((todo) => !todo.completed).length;
   return (
     <>
       <div>
@@ -46,6 +47,7 @@ function App() {
         >
           Completed
         </button>
+        <p>{remainingTodos} tasks left</p>
       </div>
       <div>
         <button onClick={clearCompleted}>Clear Completed</button>
