@@ -1,9 +1,48 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import type { Todo } from "./../types/todo";
 
+type Filter = "all" | "active" | "completed";
+type TodoAction =
+  | { type: "ADD_TODO"; payload: string }
+  | { type: "DELETE_TODO"; payload: number }
+  | { type: "TOGGLE_TODO"; payload: number }
+  | { type: "EDIT_TODO"; payload: { id: number; title: string } }
+  | { type: "CLEAR_COMPLETED" };
+
+function todoReducer(state: Todo[], action: TodoAction): Todo[] {
+  switch (action.type) {
+    case "ADD_TODO":
+      return [
+        ...state,
+        {
+          id: Date.now(),
+          title: action.payload.trim(),
+          completed: false,
+        },
+      ];
+    case "DELETE_TODO":
+      return state.filter((todo) => todo.id !== action.payload);
+    case "TOGGLE_TODO":
+      return state.map((todo) =>
+        todo.id === action.payload
+          ? { ...todo, completed: !todo.completed }
+          : todo,
+      );
+    case "EDIT_TODO":
+      return state.map((todo) =>
+        todo.id === action.payload.id
+          ? { ...todo, title: action.payload.title.trim() }
+          : todo,
+      );
+    case "CLEAR_COMPLETED":
+      return state.filter((todo) => !todo.completed);
+    default:
+      return state;
+  }
+}
+
 function useTodos() {
-  type Filter = "all" | "active" | "completed";
-  const [todos, setTodos] = useState<Todo[]>(() => {
+  const [todos, dispatch] = useReducer(todoReducer, [], () => {
     const storedTodos = localStorage.getItem("todos");
     return storedTodos ? JSON.parse(storedTodos) : [];
   });
@@ -18,35 +57,23 @@ function useTodos() {
   const addTodo = (title: string) => {
     if (!title.trim()) return;
 
-    const newTodo: Todo = {
-      id: Date.now(),
-      title: title.trim(),
-      completed: false,
-    };
-    setTodos([...todos, newTodo]);
+    dispatch({ type: "ADD_TODO", payload: title });
   };
+
   const deleteTodo = (id: number) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+    dispatch({ type: "DELETE_TODO", payload: id });
   };
 
   const editTodo = (id: number, title: string) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, title: title.trim() } : todo,
-      ),
-    );
+    dispatch({ type: "EDIT_TODO", payload: { id, title } });
   };
 
   const toggleTodo = (id: number) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo,
-      ),
-    );
+    dispatch({ type: "TOGGLE_TODO", payload: id });
   };
 
   const clearCompleted = () => {
-    setTodos(todos.filter((todo) => !todo.completed));
+    dispatch({ type: "CLEAR_COMPLETED" });
   };
 
   useEffect(() => {
