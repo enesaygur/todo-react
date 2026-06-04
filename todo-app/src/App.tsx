@@ -2,6 +2,8 @@ import { useState } from "react";
 import TodoList from "./components/TodoList";
 import TodoInput from "./components/TodoInput";
 import useTodos from "./hooks/useTodos";
+import TodoFilters from "./components/TodoFilters";
+import TodoStats from "./components/TodoStats";
 
 function App() {
   const [title, setTitle] = useState("");
@@ -23,31 +25,8 @@ function App() {
   return (
     <>
       <div>
-        <button
-          onClick={() => setFilter("all")}
-          style={{
-            fontWeight: filter === "all" ? "bold" : "normal",
-          }}
-        >
-          All
-        </button>
-        <button
-          onClick={() => setFilter("active")}
-          style={{
-            fontWeight: filter === "active" ? "bold" : "normal",
-          }}
-        >
-          Active
-        </button>
-        <button
-          onClick={() => setFilter("completed")}
-          style={{
-            fontWeight: filter === "completed" ? "bold" : "normal",
-          }}
-        >
-          Completed
-        </button>
-        <p>{remainingTodos} tasks left</p>
+        <TodoFilters filter={filter} setFilter={setFilter} />
+        <TodoStats remainingTodos={remainingTodos} />
       </div>
       <div>
         <button onClick={clearCompleted}>Clear Completed</button>
