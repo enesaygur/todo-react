@@ -1,9 +1,9 @@
 import { useState } from "react";
 import TodoList from "./components/TodoList";
 import TodoInput from "./components/TodoInput";
-import useTodos from "./hooks/useTodos";
 import TodoFilters from "./components/TodoFilters";
 import TodoStats from "./components/TodoStats";
+import { useTodoContext } from "./context/TodoContext";
 
 function App() {
   const [title, setTitle] = useState("");
@@ -16,7 +16,7 @@ function App() {
     setFilter,
     editTodo,
     clearCompleted,
-  } = useTodos();
+  } = useTodoContext();
   const handleAddTodo = () => {
     addTodo(title);
     setTitle("");
