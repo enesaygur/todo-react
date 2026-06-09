@@ -1,19 +1,13 @@
-import type { Todo } from "./../types/todo";
+import { useTodoContext } from "../context/TodoContext";
 
 import TodoItem from "./TodoItem";
 
-interface Props {
-  todos: Todo[];
-  onDelete: (id: number) => void;
-  onToggle: (id: number) => void;
-  onEdit: (id: number, title: string) => void;
-}
-
-function TodoList({ todos, onDelete, onToggle, onEdit }: Props) {
+function TodoList() {
+  const { todos } = useTodoContext();
   return (
     <ul>
       {todos.map((todo) => (
-        <TodoItem key={todo.id} todo={todo} onDelete={onDelete} onToggle={onToggle} onEdit={onEdit} />
+        <TodoItem key={todo.id} todo={todo} />
       ))}
     </ul>
   );

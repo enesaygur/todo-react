@@ -1,8 +1,7 @@
-interface Props {
-  filter: "all" | "active" | "completed";
-  setFilter: (filter: "all" | "active" | "completed") => void;
-}
-function TodoFilters({ filter, setFilter }: Props) {
+import { useTodoContext } from "../context/TodoContext";
+
+function TodoFilters() {
+  const { filter, setFilter } = useTodoContext();
   return (
     <>
       <button

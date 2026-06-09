@@ -7,38 +7,24 @@ import { useTodoContext } from "./context/TodoContext";
 
 function App() {
   const [title, setTitle] = useState("");
-  const {
-    todos,
-    addTodo,
-    deleteTodo,
-    toggleTodo,
-    filter,
-    setFilter,
-    editTodo,
-    clearCompleted,
-  } = useTodoContext();
+  const { addTodo, clearCompleted } = useTodoContext();
   const handleAddTodo = () => {
     addTodo(title);
     setTitle("");
   };
-  const remainingTodos = todos.filter((todo) => !todo.completed).length;
+
   return (
     <>
       <div>
-        <TodoFilters filter={filter} setFilter={setFilter} />
-        <TodoStats remainingTodos={remainingTodos} />
+        <TodoFilters />
+        <TodoStats />
       </div>
       <div>
         <button onClick={clearCompleted}>Clear Completed</button>
       </div>
       <h1>Todo App</h1>
       <TodoInput title={title} setTitle={setTitle} addTodo={handleAddTodo} />
-      <TodoList
-        todos={todos}
-        onDelete={deleteTodo}
-        onToggle={toggleTodo}
-        onEdit={editTodo}
-      />
+      <TodoList />
     </>
   );
 }

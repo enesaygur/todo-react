@@ -1,16 +1,15 @@
 import { useState } from "react";
 import type { Todo } from "../types/todo";
+import { useTodoContext } from "../context/TodoContext";
 
 interface Props {
   todo: Todo;
-  onDelete: (id: number) => void;
-  onToggle: (id: number) => void;
-  onEdit: (id: number, title: string) => void;
 }
 
-function TodoItem({ todo, onDelete, onToggle, onEdit }: Props) {
+function TodoItem({ todo }: Props) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(todo.title);
+  const { deleteTodo, toggleTodo, editTodo } = useTodoContext();
   return (
     <li>
       {isEditing ? (
@@ -31,7 +30,7 @@ function TodoItem({ todo, onDelete, onToggle, onEdit }: Props) {
         />
       ) : (
         <span
-          onClick={() => onToggle(todo.id)}
+          onClick={() => toggleTodo(todo.id)}
           style={{
             textDecoration: todo.completed ? "line-through" : "none",
             cursor: "pointer",
@@ -45,7 +44,7 @@ function TodoItem({ todo, onDelete, onToggle, onEdit }: Props) {
       {isEditing ? (
         <button
           onClick={() => {
-            onEdit(todo.id, editedTitle);
+            editTodo(todo.id, editedTitle);
             setIsEditing(false);
           }}
         >
@@ -54,7 +53,7 @@ function TodoItem({ todo, onDelete, onToggle, onEdit }: Props) {
       ) : (
         <button onClick={() => setIsEditing(true)}>Edit</button>
       )}
-      <button onClick={() => onDelete(todo.id)}>Delete</button>
+      <button onClick={() => deleteTodo(todo.id)}>Delete</button>
     </li>
   );
 }
